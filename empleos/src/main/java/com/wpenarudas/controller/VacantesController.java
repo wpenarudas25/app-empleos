@@ -52,14 +52,14 @@ public class VacantesController {
 	}
 
 	@GetMapping("/delete")
-	public String eliminar(@RequestParam("id") int idVacante, Model model) {
+	public String eliminar(@RequestParam("id") Long idVacante, Model model) {
 		System.out.println("Borrando Vacante con id: " + idVacante);
 		model.addAttribute("id", idVacante);
 		return "mensaje";
 	}
 
 	@GetMapping("/view/{id}")
-	public String verDetalle(@PathVariable("id") int idVacante, Model model) {
+	public String verDetalle(@PathVariable("id") Long idVacante, Model model) {
 		Vacante vacante = serviceVacantes.buscarPorId(idVacante);
 		System.out.println("Vacante: " + vacante);
 		model.addAttribute("vacante", vacante);
@@ -70,7 +70,7 @@ public class VacantesController {
 	}
 
 	@GetMapping("/aplicar/{id}")
-	public String aplicarVacante(@PathVariable("id") int idVacante, Model model) {
+	public String aplicarVacante(@PathVariable("id") Long idVacante, Model model) {
 		Vacante vacante = serviceVacantes.buscarPorId(idVacante);
 		System.out.println("Vacante: " + vacante);
 		model.addAttribute("vacante", vacante);

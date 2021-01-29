@@ -5,7 +5,7 @@ import java.util.List;
 import com.wpenarudas.model.Vacante;
 
 public interface VacanteServiceInterface {
-	Vacante buscarPorId(Integer idVacante);
+	Vacante buscarPorId(Long idVacante);
 	void guardar(Vacante vacante);
 	List<Vacante> buscarTodas();
 }

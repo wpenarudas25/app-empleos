@@ -16,7 +16,6 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 		try {
 			//Usuario 1}
 			Usuario usuarioadmin = new Usuario();
-			usuarioadmin.setId(1);
 			usuarioadmin.setNombre("Wilmar Peña Rudas");
 			usuarioadmin.setCorreo("wpenarudas@gmail.com");
 			usuarioadmin.setUsername("wpenarudas");
@@ -26,7 +25,6 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 			
 			//Usuario 1}
 			Usuario usuarioEdit = new Usuario();
-			usuarioEdit.setId(2);
 			usuarioEdit.setNombre("GAriammys Calderón Quintana");
 			usuarioEdit.setCorreo("gariammys8572@gmail.com");
 			usuarioEdit.setUsername("gary");
@@ -36,7 +34,6 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 			
 			//Usuario 1}
 			Usuario usuario = new Usuario();
-			usuario.setId(3);
 			usuario.setNombre("Gaby Calderón Quitana");
 			usuario.setCorreo("gabycq@gmail.com");
 			usuario.setUsername("gabycq");
@@ -54,7 +51,7 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 	}
 
 	@Override
-	public Usuario buscarPorId(Integer idUsuario) {
+	public Usuario buscarPorId(Long idUsuario) {
 		for (Usuario u : lista) {
 			if (u.getId() == idUsuario) {
 				return u;
