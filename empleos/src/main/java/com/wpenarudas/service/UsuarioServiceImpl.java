@@ -2,11 +2,17 @@ package com.wpenarudas.service;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.wpenarudas.model.Usuario;
+import com.wpenarudas.repository.UsuarioRepo;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioServiceInterface {
+	
+	@Autowired
+	UsuarioRepo repository;
 	
 	List<Usuario> lista = null;
 	
@@ -16,6 +22,7 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 		try {
 			//Usuario 1}
 			Usuario usuarioadmin = new Usuario();
+			usuarioadmin.setId((long) 1);
 			usuarioadmin.setNombre("Wilmar Peña Rudas");
 			usuarioadmin.setCorreo("wpenarudas@gmail.com");
 			usuarioadmin.setUsername("wpenarudas");
@@ -25,6 +32,7 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 			
 			//Usuario 1}
 			Usuario usuarioEdit = new Usuario();
+			usuarioEdit.setId((long) 2);
 			usuarioEdit.setNombre("GAriammys Calderón Quintana");
 			usuarioEdit.setCorreo("gariammys8572@gmail.com");
 			usuarioEdit.setUsername("gary");
@@ -34,6 +42,7 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 			
 			//Usuario 1}
 			Usuario usuario = new Usuario();
+			usuario.setId((long) 3);
 			usuario.setNombre("Gaby Calderón Quitana");
 			usuario.setCorreo("gabycq@gmail.com");
 			usuario.setUsername("gabycq");
@@ -49,7 +58,7 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
-
+ 
 	@Override
 	public Usuario buscarPorId(Long idUsuario) {
 		for (Usuario u : lista) {
@@ -68,7 +77,7 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 
 	@Override
 	public List<Usuario> buscarTodas() {
-		return lista;
+		return (List<Usuario>) repository.findAll();
 	}
 
 }

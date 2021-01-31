@@ -20,6 +20,7 @@ public class VacanteServiceImpl implements VacanteServiceInterface {
 		try {
 			// Oferta numero 1
 			Vacante vacante1 = new Vacante();
+			vacante1.setId((long) 1);
 			vacante1.setNombre("Ingeniero de comunicaciones");
 			vacante1.setDescripcion("Se solicita ingeniero para dar soporte a la intranet");
 			vacante1.setFecha(sdf.parse("07-01-2021"));
@@ -29,6 +30,7 @@ public class VacanteServiceImpl implements VacanteServiceInterface {
 
 			// Oferta numero 2
 			Vacante vacante2 = new Vacante();
+			vacante2.setId((long) 2);
 			vacante2.setNombre("Ingeniero Mecatronico");
 			vacante2.setDescripcion("Se solicita ingeniero para dar soporte a la Infraestructura");
 			vacante2.setFecha(sdf.parse("04-01-2021"));
@@ -38,6 +40,7 @@ public class VacanteServiceImpl implements VacanteServiceInterface {
 
 			// Oferta numero 3
 			Vacante vacante3 = new Vacante();
+			vacante3.setId((long) 3);
 			vacante3.setNombre("Ingeniero Civil");
 			vacante3.setDescripcion("Se solicita ingeniero para dar soporte a la Infraestructura");
 			vacante3.setFecha(sdf.parse("17-11-2020"));
@@ -46,6 +49,7 @@ public class VacanteServiceImpl implements VacanteServiceInterface {
 
 			// Oferta numero 4
 			Vacante vacante4 = new Vacante();
+			vacante4.setId((long) 4);
 			vacante4.setNombre("Ingeniero Ambiental");
 			vacante4.setDescripcion("Se solicita ingeniero para dar soporte a la Infraestructura");
 			vacante4.setFecha(sdf.parse("08-08-2020"));
