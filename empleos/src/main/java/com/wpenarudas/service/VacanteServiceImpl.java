@@ -5,13 +5,18 @@ import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wpenarudas.model.Vacante;
+import com.wpenarudas.repository.VacanteRepo;
 
 @Service
 public class VacanteServiceImpl implements VacanteServiceInterface {
 
+	@Autowired
+	VacanteRepo repository;
+	
 	List<Vacante> lista = null;
 
 	public VacanteServiceImpl() {
@@ -59,9 +64,10 @@ public class VacanteServiceImpl implements VacanteServiceInterface {
 
 			// Oferta numero 4
 			Vacante vacante5 = new Vacante();
+			vacante5.setId((long) 5);
 			vacante5.setNombre("Mecánico dental");
 			vacante5.setDescripcion("Se solicita mecánico dental para laborar con contrato indefinido desde la fecha");
-			vacante5.setFecha(sdf.parse("28-01-20210"));
+			vacante5.setFecha(sdf.parse("28-01-2021"));
 			vacante5.setSalario(1400000);
 			vacante5.setDestacado(2);
 			vacante5.setImagen("logo19.png");
@@ -78,7 +84,8 @@ public class VacanteServiceImpl implements VacanteServiceInterface {
 	}
 
 	public List<Vacante> buscarTodas() {
-		return lista;
+		return (List<Vacante>) repository.findAll();
+		//(List<Vacante>) 
 	}
 
 	@Override

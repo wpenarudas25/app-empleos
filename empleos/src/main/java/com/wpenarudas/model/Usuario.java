@@ -16,6 +16,8 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.sun.istack.NotNull;
+
 @Entity
 public class Usuario implements Serializable {
 
@@ -28,18 +30,31 @@ public class Usuario implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name = "native", strategy = "native")
 	private Long id;
+	
 	@Column
+	@NotNull
 	private String nombre;
-	@Column
+	
+	@Column(unique = true)
+	@NotNull
 	private String correo;
+	
 	@Column
+	@NotNull
 	private String estado;
+	
 	@Column
+	@NotNull
 	private String tipo;
-	@Column
+	
+	@Column(unique = true)
+	@NotNull
 	private String username;
+	
 	@Column
+	@NotNull
 	private String password;
+	
 	@Transient
 	private String confirmPassword;
 

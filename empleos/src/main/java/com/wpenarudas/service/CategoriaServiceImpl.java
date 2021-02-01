@@ -3,12 +3,17 @@ package com.wpenarudas.service;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wpenarudas.model.Categoria;
+import com.wpenarudas.repository.CategoriaRepo;
 
 @Service
 public class CategoriaServiceImpl implements CategoriaServiceInterface {
+	
+	@Autowired
+	CategoriaRepo repository;
 	
 	List<Categoria> lista = null;
 	
@@ -69,7 +74,7 @@ public class CategoriaServiceImpl implements CategoriaServiceInterface {
 	@Override
 	public List<Categoria> buscarTodas() {
 		// TODO Auto-generated method stub
-		return lista;
+		return (List<Categoria>) repository.findAll();
 	}
 
 }
