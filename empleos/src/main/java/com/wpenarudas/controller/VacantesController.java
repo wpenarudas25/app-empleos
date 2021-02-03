@@ -8,13 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 
 import com.wpenarudas.model.Vacante;
 import com.wpenarudas.service.VacanteServiceInterface;
@@ -25,23 +30,37 @@ public class VacantesController {
 
 	@Autowired
 	private VacanteServiceInterface serviceVacantes;
-
-	// @GetMappig("/index")
-	/*@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String mostrarIndex(Model model) {
-		return "vacantes/listVacantes";
-	}*/
 	
 	@GetMapping("/index")
 	public String inicio(Model model) {				
-		List<Vacante> lista = serviceVacantes.buscarTodas();
-		model.addAttribute("vacantes", lista);		
+		model.addAttribute("vacantes", serviceVacantes.buscarTodas());	
 		return "vacantes/listVacantes";
 	}
 
 	@GetMapping("/create")
-	public String crear() {
+	public String crear(Model model) {
+		model.addAttribute("vacanteForm", new Vacante());
+		model.addAttribute("vacantes", serviceVacantes.buscarTodas());		
 		return "vacantes/formVacantes";
+	}
+	
+	@PostMapping("/create")
+	public String crearVacante(@Validated @ModelAttribute("vacanteForm") Vacante  vacante, BindingResult result, ModelMap model)  {
+		if(result.hasErrors()) {
+			model.addAttribute("vacanteForm", vacante);				
+		}else {
+			 try {
+				serviceVacantes.crearVacante(vacante);
+				model.addAttribute("vacanteForm", new Vacante());
+			} catch (Exception e) {
+				model.addAttribute("formErrorMessage", e.getMessage());
+				model.addAttribute("vacanteForm", vacante);
+				model.addAttribute("vacantes", serviceVacantes.buscarTodas());	
+			}
+		}
+		
+		return "vacantes/formVacantes";
+		
 	}
 
 	@PostMapping("/save")

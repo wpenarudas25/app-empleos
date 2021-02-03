@@ -77,4 +77,10 @@ public class CategoriaServiceImpl implements CategoriaServiceInterface {
 		return (List<Categoria>) repository.findAll();
 	}
 
+	@Override
+	public Categoria crearCategoria(Categoria categoria) throws Exception {
+		categoria = repository.save(categoria);
+		return categoria;
+	}
+
 }

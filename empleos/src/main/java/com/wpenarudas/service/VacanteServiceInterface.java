@@ -8,4 +8,5 @@ public interface VacanteServiceInterface {
 	Vacante buscarPorId(Long idVacante);
 	void guardar(Vacante vacante);
 	List<Vacante> buscarTodas();
+	public Vacante crearVacante(Vacante vacante) throws Exception;
 }

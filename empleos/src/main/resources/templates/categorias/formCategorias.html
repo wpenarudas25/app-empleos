@@ -21,7 +21,7 @@
 </head>
 
 <body>
-<div th:replace="~{fragments/header :: header}">Header</div>
+	<div th:replace="~{fragments/header :: header}">Header</div>
 
 	<main role="main">
 		<hr>
@@ -32,14 +32,19 @@
 					<strong>Datos de la categoría</strong>
 				</h4>
 				<div class="card-body">
-					<form>
+					<form class="form" th:action="@{/categorias/create}" role="form"
+						autocomplete="on" th:object="${categoriaForm}" method="post">
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
 									<label for="nombre">Nombre</label> <input type="text"
 										class="form-control" id="nombre" name="nombre"
+										th:field="${categoriaForm.nombre}"
 										placeholder="Escriba el nombre de la categoria"
 										required="required">
+									<div class="alert-danger"
+										th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">nombre
+										Error</div>
 								</div>
 							</div>
 						</div>
@@ -48,14 +53,25 @@
 								<div class="form-group">
 									<label for="descripcion">Descripción</label>
 									<textarea class="form-control" name="descripcion"
-										id="descripcion" rows="2"></textarea>
+										th:field="${categoriaForm.descripcion}" id="descripcion"
+										rows="2"></textarea>
+									<div class="alert-danger"
+										th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}">Correo
+										Error</div>
 								</div>
 							</div>
 						</div>
 						<hr>
-						
-						<button type="submit" title="Guardar el registro."
-							class="btn btn-primary">Guardar</button>
+						<div>
+
+							<a type="reset" class="btn btn-danger" title="Ir al login"
+								th:href="@{/categorias/index}">Cancelar</a>
+							<button type="submit" title="Guardar el registro."
+								class="btn btn-primary">Guardar</button>
+						</div>
+						<div class="alert alert-danger" th:if="${formErrorMessage}"
+							th:text="${formErrorMessage}">Error Message</div>
+
 					</form>
 				</div>
 			</div>

@@ -1,6 +1,6 @@
 package com.wpenarudas.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.sun.istack.NotNull;
 
 @Entity
 public class Vacante {
@@ -17,15 +20,22 @@ public class Vacante {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name = "native", strategy = "native")
 	private Long id;
+	
 	@Column
+	@NotNull
 	private String nombre; 
 	@Column
+	@NotNull
 	private String descripcion;
 	@Column
-	private Date fecha;
+	@NotNull
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate fecha;
 	@Column
+	@NotNull
 	private double salario;
 	@Column
+	@NotNull
 	private Integer destacado;
 	@Column
 	private String imagen ="no-imagen.png";
@@ -54,11 +64,11 @@ public class Vacante {
 		this.descripcion = descripcion;
 	}
 
-	public Date getFecha() {
+	public LocalDate getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(Date fecha) {
+	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
 	}
 

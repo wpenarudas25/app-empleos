@@ -48,7 +48,7 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 	}
 	
 	private boolean checkEmailAvailable(Usuario usuario) throws Exception {
-		Optional<Usuario> userFound = repository.findByUsername(usuario.getUsername());
+		Optional<Usuario> userFound = repository.findByCorreo(usuario.getCorreo());
 		if (userFound.isPresent()) {
 			throw new Exception("Email no disponible");
 		}

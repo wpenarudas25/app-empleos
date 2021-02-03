@@ -19,7 +19,7 @@ public class VacanteServiceImpl implements VacanteServiceInterface {
 	
 	List<Vacante> lista = null;
 
-	public VacanteServiceImpl() {
+	/*public VacanteServiceImpl() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yyyy");
 		lista = new LinkedList<Vacante>();
 		try {
@@ -81,7 +81,7 @@ public class VacanteServiceImpl implements VacanteServiceInterface {
 		} catch (ParseException e) {
 			System.out.println("Error: " + e.getMessage());
 		}
-	}
+	}*/
 
 	public List<Vacante> buscarTodas() {
 		return (List<Vacante>) repository.findAll();
@@ -104,6 +104,12 @@ public class VacanteServiceImpl implements VacanteServiceInterface {
 	public void guardar(Vacante vacante) {
 		lista.add(vacante);
 
+	}
+
+	@Override
+	public Vacante crearVacante(Vacante vacante) throws Exception {
+		vacante = repository.save(vacante);
+		return null;
 	}
 
 }

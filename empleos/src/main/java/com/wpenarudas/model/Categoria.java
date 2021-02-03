@@ -14,6 +14,8 @@ import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.sun.istack.NotNull;
+
 @Entity
 public class Categoria {
 	
@@ -22,6 +24,7 @@ public class Categoria {
 	@GenericGenerator(name = "native", strategy = "native")
 	private long id;
 	@Column
+	@NotNull
 	private String nombre;
 	@Column
 	private String descripcion;	
