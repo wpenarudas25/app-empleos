@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="favicon.ico">
+
+<title>EmpleosApp | Editar Categaoría</title>
+<!-- Bootstrap core CSS -->
+<link rel="shortcut icon" href="/images/logo.png">
+<!-- Bootstrap core CSS -->
+<link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
+<link th:href="@{/bootstrap/css/sticky-footer-navbar.css}"
+	rel="stylesheet">
+</head>
+
+<body>
+	<div th:replace="~{fragments/header :: header}">Header</div>
+
+	<main role="main">
+		<hr>
+		<div class="container">
+
+			<div class="card">
+				<h4 class="card-header">
+					<strong>Editar la categoría</strong>y
+				</h4>
+				<div class="card-body">
+					<form class="form" th:action="@{/categorias/editCategoria}" role="form"
+						autocomplete="on" th:object="${categoriaForm}" method="post">
+						<div class="row">
+						<input class="form-control" type="hidden" th:field="${categoriaForm.id}">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="nombre">Nombre</label> <input type="text"
+										class="form-control" id="nombre" name="nombre"
+										th:field="${categoriaForm.nombre}"
+										placeholder="Escriba el nombre de la categoria"
+										required="required">
+									<div class="alert-danger"
+										th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">nombre
+										Error</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-8">
+								<div class="form-group">
+									<label for="descripcion">Descripción</label>
+									<textarea class="form-control" name="descripcion"
+										th:field="${categoriaForm.descripcion}" id="descripcion"
+										rows="2"></textarea>
+									<div class="alert-danger"
+										th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}">Correo
+										Error</div>
+								</div>
+							</div>
+						</div>
+						<hr>
+						<div>
+
+							<a type="reset" class="btn btn-danger" title="Ir al login"
+								th:href="@{/categorias/index}">Cancelar</a>
+							<button type="submit" title="Guardar el registro."
+								class="btn btn-primary">Guardar</button>
+						</div>
+						<div class="alert alert-danger" th:if="${formErrorMessage}"
+							th:text="${formErrorMessage}">Error Message</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- /container -->
+
+	</main>
+
+	<div th:insert="~{fragments/footer :: footer}">&copy;</div>
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

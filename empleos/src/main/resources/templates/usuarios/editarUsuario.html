@@ -34,10 +34,12 @@
 					<strong>Editar usuario</strong>
 				</h4>
 				<div class="card-body">
-					<form  class="form" th:action="@{/usuarios/create}" role="form"
+					<form  class="form" th:action="@{/usuarios/editUser}" role="form"
 						autocomplete="on" th:object="${userForm}" method="post">
 						<div class="row">
-							<input class="form-control" type="hidden">
+							<input class="form-control" type="hidden" th:field="${userForm.password}">
+							<input class="form-control" type="hidden" th:field="${userForm.confirmPassword}">
+							<input class="form-control" type="hidden" th:field="${userForm.id}">
 							<div class="col-md-4">
 								<div class="form-group">
 									<label for="nombre">Nombre</label> <input type="text"
@@ -61,7 +63,7 @@
 										Error</div>
 								</div>
 							</div>
-							<div class="col-md-2">
+							<div class="col-md-4">
 								<div class="form-group">
 									<label for="estado">Estado: </label> <select
 										class="form-control" size="1" id="estado" name="estado"
@@ -85,30 +87,7 @@
 										th:if="${#fields.hasErrors('username')}"
 										th:errors="*{username}">Username Error</div>
 								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="form-group">
-									<label for="password">Contraseña: </label> <input
-										th:field="${userForm.password}" type="password"
-										class="form-control" id="password" name="password"
-										placeholder="Escriba la clave de acceso" required="required">
-									<div class="alert-danger"
-										th:if="${#fields.hasErrors('password')}"
-										th:errors="*{password}">Password Error</div>
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="form-group">
-									<label for="confirmPassword">Confirmar Contraseña: </label> <input
-										type="password" class="form-control" id="confirmPassword"
-										name="confirmPassword" th:field="${userForm.confirmPassword}"
-										placeholder="Escriba nuevamente la contraseña"
-										required="required">
-									<div class="alert-danger"
-										th:if="${#fields.hasErrors('confirmPassword')}"
-										th:errors="*{confimPassword}">Name Error</div>
-								</div>
-							</div>
+							</div>						
 
 							<div class="col-md-3">
 								<div class="form-group">
@@ -116,7 +95,7 @@
 										class="form-control" size="1" id="tipo" name="tipo"
 										th:field="${userForm.tipo}">
 										<option value="USER">Usuario</option>
-										<option value="SUPERVISOR">Editor</option>
+										<option value="EDITOR">Editor</option>
 										<option value="ADMIN">Administrador</option>
 									</select>
 									<div class="alert-danger" th:if="${#fields.hasErrors('tipo')}"
