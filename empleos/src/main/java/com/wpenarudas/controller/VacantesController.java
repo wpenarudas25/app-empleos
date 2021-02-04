@@ -2,7 +2,6 @@ package com.wpenarudas.controller;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 
 import com.wpenarudas.model.Vacante;
 import com.wpenarudas.service.VacanteServiceInterface;
@@ -78,7 +76,7 @@ public class VacantesController {
 	}
 
 	@GetMapping("/view/{id}")
-	public String verDetalle(@PathVariable("id") Long idVacante, Model model) {
+	public String verDetalle(@PathVariable("id") Long idVacante, Model model) throws Exception {
 		Vacante vacante = serviceVacantes.buscarPorId(idVacante);
 		System.out.println("Vacante: " + vacante);
 		model.addAttribute("vacante", vacante);
@@ -89,7 +87,7 @@ public class VacantesController {
 	}
 
 	@GetMapping("/aplicar/{id}")
-	public String aplicarVacante(@PathVariable("id") Long idVacante, Model model) {
+	public String aplicarVacante(@PathVariable("id") Long idVacante, Model model) throws Exception {
 		Vacante vacante = serviceVacantes.buscarPorId(idVacante);
 		System.out.println("Vacante: " + vacante);
 		model.addAttribute("vacante", vacante);
@@ -98,7 +96,35 @@ public class VacantesController {
 
 		return "/vacantes/formSolicitud";
 	}
+	
+	@GetMapping("/editVacante/{id}")
+	public String getEditVacanteForm(Model model, @PathVariable(name="id") Long id) throws Exception {
+		Vacante vacanteEditar = serviceVacantes.buscarPorId(id);		
+		model.addAttribute("vacantes", serviceVacantes.buscarTodas());
+		model.addAttribute("vacanteForm", vacanteEditar);		
+		
+		return "vacantes/editVacante";
+	}
 
+	
+	@PostMapping("/editVacante")
+	public String editarVacante(@Validated @ModelAttribute("vacanteForm") Vacante vacante, BindingResult result, ModelMap model)  {
+		if(result.hasErrors()) {
+			model.addAttribute("vacanteForm", vacante);				
+		}else {
+			 try {
+				serviceVacantes.actualizarVacante(vacante);
+				model.addAttribute("vacanteForm", new Vacante());
+			} catch (Exception e) {
+				model.addAttribute("formErrorMessage", e.getMessage());
+				model.addAttribute("vacanteForm", vacante);
+				model.addAttribute("vacantes", serviceVacantes.buscarTodas());	
+			}
+		}		
+		return "vacantes/formVacantes";
+	}
+	
+	
 	@InitBinder
 	public void initBinder(WebDataBinder webDataBinder) {
 		SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-yyyy");

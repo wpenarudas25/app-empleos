@@ -67,6 +67,27 @@ public class UsuariosController {
 		model.addAttribute("userForm", usuarioEditar);		
 		model.addAttribute("editMode",true);//Mira siguiente seccion para mas informacion
 		
-		return "usuarios/EditarUsuario";
+		return "usuarios/editarUsuario";
 	}
+	
+	@PostMapping("/editUser")
+	public String editarUsuario(@Validated @ModelAttribute("userForm") Usuario usuario, BindingResult result, ModelMap model)  {
+		if(result.hasErrors()) {
+			model.addAttribute("userForm", usuario);				
+		}else {
+			 try {
+				serviceUsuario.actualizarUsuario(usuario);
+				model.addAttribute("userForm", new Usuario());
+			} catch (Exception e) {
+				model.addAttribute("formErrorMessage", e.getMessage());
+				model.addAttribute("userForm", usuario);
+				model.addAttribute("usuarios", serviceUsuario.buscarTodas());		
+				model.addAttribute("roles", rolRepo.findAll());
+			}
+		}
+		
+		return "usuarios/formUsuarios";
+				
+	}
+	
 }

@@ -66,4 +66,20 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 		return usuario;
 		
 	}
+
+	@Override
+	public Usuario actualizarUsuario(Usuario usuario) throws Exception {
+		Usuario usuarioEncontrado = buscarPorId(usuario.getId()); 
+		mapUsuario(usuario, usuarioEncontrado);
+		return repository.save(usuarioEncontrado);		
+	}
+	
+	protected void mapUsuario(Usuario from, Usuario to) {
+		to.setUsername(from.getUsername());
+		to.setNombre(from.getNombre());
+		to.setRoles(from.getRoles());
+		to.setCorreo(from.getCorreo());
+		to.setEstado(from.getEstado());
+		to.setTipo(from.getTipo());		
+	}
 }

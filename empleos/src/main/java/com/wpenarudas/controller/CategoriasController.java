@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -45,7 +46,7 @@ public class CategoriasController {
 		} else {
 			try {
 				serviceCategoria.crearCategoria(categoria);
-				model.addAttribute("categoriaForm", new Categoria ());
+				model.addAttribute("categoriaForm", new Categoria());
 			} catch (Exception e) {
 				model.addAttribute("formErrorMessage", e.getMessage());
 				model.addAttribute("categoriaForm", categoria);
@@ -56,4 +57,37 @@ public class CategoriasController {
 		return "categorias/formCategorias";
 
 	}
+
+	@GetMapping("/editCategoria/{id}")
+	public String getEditUserForm(Model model, @PathVariable(name = "id") Long id) throws Exception {
+		Categoria categoriaEditar = serviceCategoria.buscarPorId(id);
+		model.addAttribute("categorias", serviceCategoria.buscarTodas());
+		model.addAttribute("categoriaForm", categoriaEditar);
+
+		// model.addAttribute("editMode",true);//Mira siguiente seccion para mas
+		// informacion
+
+		return "categorias/editarcategoria";
+	}
+
+	@PostMapping("/editCategoria")
+	public String editarCategoria(@Validated @ModelAttribute("categoriaForm") Categoria categoria, BindingResult result,
+			ModelMap model) {
+		if (result.hasErrors()) {
+			model.addAttribute("categoriaForm", categoria);
+		} else {
+			try {
+				serviceCategoria.actualizarCategoria(categoria);
+				model.addAttribute("categoriaForm", new Categoria());
+			} catch (Exception e) {
+				model.addAttribute("formErrorMessage", e.getMessage());
+				model.addAttribute("categoriaForm", categoria);
+				model.addAttribute("categorias", serviceCategoria.buscarTodas());
+			}
+		}
+
+		return "categorias/formCategorias";
+
+	}
+
 }
