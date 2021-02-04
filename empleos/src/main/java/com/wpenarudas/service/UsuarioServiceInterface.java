@@ -8,4 +8,5 @@ public interface UsuarioServiceInterface {
 	Usuario buscarPorId(Long idUsuario) throws Exception;
 	public Usuario crearUsuario(Usuario usuario) throws Exception;
 	public Usuario actualizarUsuario(Usuario usuario) throws Exception;
+	public void eliminarUsuario(Long id) throws Exception;
 }

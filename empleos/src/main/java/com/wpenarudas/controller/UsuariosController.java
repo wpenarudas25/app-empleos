@@ -86,8 +86,18 @@ public class UsuariosController {
 			}
 		}
 		
-		return "usuarios/formUsuarios";
+		return "redirect:/usuarios/index";
 				
+	}
+	
+	@GetMapping("/eliminarUsuario/{id}")
+	public String eliminarUsuario(Model model,  @PathVariable(name="id") Long id ) {
+		try {
+			serviceUsuario.eliminarUsuario(id);
+		} catch (Exception e) {
+			model.addAttribute("listErrorMessage", e.getMessage());
+		}
+		return "redirect:/usuarios/index";
 	}
 	
 }

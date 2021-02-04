@@ -51,12 +51,16 @@
 								<th>[[${tmpCategoria.id}]]</th>
 								<td>[[${tmpCategoria.nombre}]]</td>
 								<td>[[${tmpCategoria.descripcion}]]</td>
+								
 								<td><a href="#" th:href="@{'/categorias/editCategoria/{id}' (id=${tmpCategoria.id})}" class="btn btn-success btn-sm"
 									role="button" title="Editar"><i class="fas fa-pencil-alt"
-										aria-hidden="true"></i></a> <a href="#"
-									onclick="return confirm('¿Estas seguro?')"
+										aria-hidden="true"></i></a> 
+										
+										<a href="#" th:href="@{/categorias/eliminarCategoria/}+${tmpCategoria.id}"
+									onclick="return confirm('¿Estas seguro de eliminar esta Categoría?')"
 									class="btn btn-danger btn-sm" role="button" title="Eliminar"><i
-										class="fas fa-trash" aria-hidden="true"></i></a></td>
+										class="fas fa-trash" aria-hidden="true"></i></a>
+								</td>
 							</tr>
 						</tbody>
 					</table>

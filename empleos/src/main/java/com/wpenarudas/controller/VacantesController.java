@@ -121,7 +121,17 @@ public class VacantesController {
 				model.addAttribute("vacantes", serviceVacantes.buscarTodas());	
 			}
 		}		
-		return "vacantes/formVacantes";
+		return "redirect:/vacantes/index";
+	}
+	
+	@GetMapping("/eliminarVacante/{id}")
+	public String eliminarVacante(Model model,  @PathVariable(name="id") Long id ) {
+		try {
+			serviceVacantes.eliminarVacante(id);
+		} catch (Exception e) {
+			model.addAttribute("listErrorMessage", e.getMessage());
+		}
+		return "redirect:/vacantes/index";
 	}
 	
 	

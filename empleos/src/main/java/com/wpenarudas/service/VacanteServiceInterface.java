@@ -10,4 +10,5 @@ public interface VacanteServiceInterface {
 	List<Vacante> buscarTodas();
 	public Vacante crearVacante(Vacante vacante) throws Exception;
 	public Vacante actualizarVacante(Vacante vacante) throws Exception;
+	public void eliminarVacante(Long id) throws Exception;
 }

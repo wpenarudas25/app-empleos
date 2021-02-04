@@ -13,17 +13,17 @@ public class VacanteServiceImpl implements VacanteServiceInterface {
 
 	@Autowired
 	VacanteRepo repository;
-	
+
 	List<Vacante> lista = null;
 
 	public List<Vacante> buscarTodas() {
 		return (List<Vacante>) repository.findAll();
-		//(List<Vacante>) 
+		// (List<Vacante>)
 	}
 
 	@Override
 	public Vacante buscarPorId(Long idVacante) throws Exception {
-		return repository.findById(idVacante).orElseThrow(() -> new Exception("El usuario a editar no existe.")) ;
+		return repository.findById(idVacante).orElseThrow(() -> new Exception("El usuario a editar no existe."));
 	}
 
 	@Override
@@ -45,7 +45,6 @@ public class VacanteServiceImpl implements VacanteServiceInterface {
 		return repository.save(vacanteEncontrada);
 	}
 
-	
 	protected void mapVacante(Vacante from, Vacante to) {
 		to.setDescripcion(from.getDescripcion());
 		to.setDestacado(from.getDestacado());
@@ -54,18 +53,12 @@ public class VacanteServiceImpl implements VacanteServiceInterface {
 		to.setNombre(from.getNombre());
 		to.setSalario(from.getSalario());
 	}
-	
+
+	@Override
+	public void eliminarVacante(Long id) throws Exception {
+		Vacante vacante = repository.findById(id)
+				.orElseThrow(() -> new Exception("No se encontró el usuario a eliminar." + this.getClass().getName()));
+		repository.delete(vacante);
+	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-

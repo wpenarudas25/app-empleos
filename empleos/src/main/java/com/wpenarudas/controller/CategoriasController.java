@@ -1,6 +1,5 @@
 package com.wpenarudas.controller;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,8 +25,7 @@ public class CategoriasController {
 
 	@GetMapping("/index")
 	public String inicio(Model model) {
-		List<Categoria> lista = serviceCategoria.buscarTodas();
-		model.addAttribute("categorias", lista);
+		model.addAttribute("categorias", serviceCategoria.buscarTodas());
 		return "categorias/listCategorias";
 	}
 
@@ -86,8 +84,19 @@ public class CategoriasController {
 			}
 		}
 
-		return "categorias/formCategorias";
+		return "redirect:/categorias/index";
 
+	}
+	
+	@GetMapping("/eliminarCategoria/{id}")
+	public String eliminarCategoria(Model model,  @PathVariable(name="id") Long id ) {
+		try {
+			serviceCategoria.eliminarCategoria(id);
+		} catch (Exception e) {
+			model.addAttribute("listErrorMessage", e.getMessage());
+		}
+		return "redirect:/categorias/index";
+		
 	}
 
 }

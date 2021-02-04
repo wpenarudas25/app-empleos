@@ -6,21 +6,20 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import com.wpenarudas.model.Usuario;
 import com.wpenarudas.repository.UsuarioRepo;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioServiceInterface {
-	
+
 	@Autowired
 	UsuarioRepo repository;
-	
+
 	List<Usuario> lista = null;
- 
+
 	@Override
 	public Usuario buscarPorId(Long idUsuario) throws Exception {
-		return repository.findById(idUsuario).orElseThrow(() -> new Exception("El usuario a editar no existe.")) ;
+		return repository.findById(idUsuario).orElseThrow(() -> new Exception("El usuario no existe."));
 	}
 
 	@Override
@@ -33,7 +32,7 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 	public List<Usuario> buscarTodas() {
 		return (List<Usuario>) repository.findAll();
 	}
-	
+
 	private boolean checkUsernameAvailable(Usuario usuario) throws Exception {
 		Optional<Usuario> userFound = repository.findByUsername(usuario.getUsername());
 		if (userFound.isPresent()) {
@@ -41,7 +40,7 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 		}
 		return true;
 	}
-	
+
 	private boolean checkEmailAvailable(Usuario usuario) throws Exception {
 		Optional<Usuario> userFound = repository.findByCorreo(usuario.getCorreo());
 		if (userFound.isPresent()) {
@@ -51,7 +50,7 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 	}
 
 	private boolean checkPasswordValid(Usuario usuario) throws Exception {
-		if ( !usuario.getPassword().equals(usuario.getConfirmPassword())) {
+		if (!usuario.getPassword().equals(usuario.getConfirmPassword())) {
 			throw new Exception("Password y Confirm Password no son iguales");
 		}
 		return true;
@@ -61,25 +60,34 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 	public Usuario crearUsuario(Usuario usuario) throws Exception {
 		if (checkUsernameAvailable(usuario) && checkPasswordValid(usuario) && checkEmailAvailable(usuario)) {
 			usuario.setPassword(usuario.getPassword());
-			usuario= repository.save(usuario);
-		} 
+			usuario = repository.save(usuario);
+		}
 		return usuario;
-		
+
 	}
 
 	@Override
 	public Usuario actualizarUsuario(Usuario usuario) throws Exception {
-		Usuario usuarioEncontrado = buscarPorId(usuario.getId()); 
+		Usuario usuarioEncontrado = buscarPorId(usuario.getId());
 		mapUsuario(usuario, usuarioEncontrado);
-		return repository.save(usuarioEncontrado);		
+		return repository.save(usuarioEncontrado);
 	}
-	
+
 	protected void mapUsuario(Usuario from, Usuario to) {
 		to.setUsername(from.getUsername());
 		to.setNombre(from.getNombre());
 		to.setRoles(from.getRoles());
 		to.setCorreo(from.getCorreo());
 		to.setEstado(from.getEstado());
-		to.setTipo(from.getTipo());		
+		to.setTipo(from.getTipo());
+	}
+
+	
+	@Override
+	public void eliminarUsuario(Long id) throws Exception {		
+		 Usuario usuario = repository.findById(id)
+					.orElseThrow(() -> new Exception("No se encontró el usuario a eliminar." + this.getClass().getName()));
+			repository.delete(usuario);
+		 
 	}
 }

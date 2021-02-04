@@ -61,8 +61,10 @@
 								<td><a href="#"  th:href="@{'/vacantes/editVacante/{id}' (id=${tmpVacante.id})}" 
 								class="btn btn-success btn-sm"
 									role="button" title="Editar el registro."><i
-										class="fas fa-pencil-alt" aria-hidden="true"></i></a> <a href="#"
-									onclick="return confirm('¿Estas seguro?')"
+										class="fas fa-pencil-alt" aria-hidden="true"></i></a> 
+										<a href="#"
+										 th:href="@{/vacantes/eliminarVacante/}+${tmpVacante.id}"
+									onclick="return confirm('¿Estas seguro de eliminar esa vacante?')"
 									class="btn btn-danger btn-sm" role="button"
 									title="Eliminar el registro."><i class="fas fa-trash"
 										aria-hidden="true"></i></a></td>
@@ -77,8 +79,7 @@
 		<!-- /container -->
 
 	</main>
-	>
-
+	
 	<div th:insert="~{fragments/footer :: footer}">&copy;</div>
 
 	<!-- Bootstrap core JavaScript
