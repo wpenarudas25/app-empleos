@@ -53,19 +53,16 @@
 								<td th:text="${tmpUsuario.correo}"></td>
 								<!--<td th:text="${tmpUsuario.estado}"></td>-->
 								<td th:text="${tmpUsuario.tipo}"></td>
-								<td><a href="#"
+								<td>
+								<a  th:href="@{'/usuarios/editUser/{id}' (id=${tmpUsuario.id})}"
+									class="btn btn-success btn-sm" role="button"
+									title="Editar usuario."><i
+										class="fas fa-edit" aria-hidden="true"></i></a>
+								<a href="#"
 									onclick="return confirm('¿Quiere eliminar al usuario ?')"
 									class="btn btn-danger btn-sm" role="button"
 									title="Eliminar el usuario."><i class="fas fa-trash"
-										aria-hidden="true"></i></a> <a href="#"
-									onclick="return confirm('¿Quiere bloquear el acceso al usuario?')"
-									class="btn btn-warning btn-sm" role="button"
-									title="Bloquear el acceso al sistema para este usuario."><i
-										class="fas fa-lock" aria-hidden="true"></i></a> <a href="#"
-									onclick="return confirm('¿Desea desbloquear el usuario?')"
-									class="btn btn-success btn-sm" role="button"
-									title="Permitir el acceso al sistema a este usuario."><i
-										class="fas fa-unlock" aria-hidden="true"></i></a></td>
+										aria-hidden="true"></i></a>  </td>
 							</tr>
 						</tbody>
 					</table>

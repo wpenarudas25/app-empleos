@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.wpenarudas.model.Usuario;
@@ -56,5 +57,16 @@ public class UsuariosController {
 		
 		return "usuarios/formUsuarios";
 		
+	}
+	
+	@GetMapping("/editUser/{id}")
+	public String getEditUserForm(Model model, @PathVariable(name="id") Long id) throws Exception {
+		Usuario usuarioEditar = serviceUsuario.buscarPorId(id);		
+		model.addAttribute("usuarios", serviceUsuario.buscarTodas());
+		model.addAttribute("roles",rolRepo.findAll());
+		model.addAttribute("userForm", usuarioEditar);		
+		model.addAttribute("editMode",true);//Mira siguiente seccion para mas informacion
+		
+		return "usuarios/EditarUsuario";
 	}
 }

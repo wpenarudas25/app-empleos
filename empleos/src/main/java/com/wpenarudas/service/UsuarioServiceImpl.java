@@ -19,13 +19,8 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 	List<Usuario> lista = null;
  
 	@Override
-	public Usuario buscarPorId(Long idUsuario) {
-		for (Usuario u : lista) {
-			if (u.getId() == idUsuario) {
-				return u;
-			}
-		}
-		return null;
+	public Usuario buscarPorId(Long idUsuario) throws Exception {
+		return repository.findById(idUsuario).orElseThrow(() -> new Exception("El usuario a editar no existe.")) ;
 	}
 
 	@Override
