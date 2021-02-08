@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wpenarudas.dto.ChangePassword;
 import com.wpenarudas.model.Usuario;
 import com.wpenarudas.repository.UsuarioRepo;
 
@@ -67,10 +68,12 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 	}
 
 	@Override
-	public Usuario actualizarUsuario(Usuario usuario) throws Exception {
-		Usuario usuarioEncontrado = buscarPorId(usuario.getId());
-		mapUsuario(usuario, usuarioEncontrado);
-		return repository.save(usuarioEncontrado);
+	public Usuario actualizarUsuario(Usuario usuario) throws Exception {		
+			Usuario usuarioEncontrado = buscarPorId(usuario.getId());
+			mapUsuario(usuario, usuarioEncontrado);
+			String confirmPassword = usuarioEncontrado.getPassword();
+			usuarioEncontrado.setConfirmPassword(confirmPassword);
+			return repository.save(usuarioEncontrado);		 
 	}
 
 	protected void mapUsuario(Usuario from, Usuario to) {
@@ -80,14 +83,21 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 		to.setCorreo(from.getCorreo());
 		to.setEstado(from.getEstado());
 		to.setTipo(from.getTipo());
+		to.setPassword(from.getPassword());
+		to.setConfirmPassword(from.getConfirmPassword());
 	}
 
-	
 	@Override
-	public void eliminarUsuario(Long id) throws Exception {		
-		 Usuario usuario = repository.findById(id)
-					.orElseThrow(() -> new Exception("No se encontró el usuario a eliminar." + this.getClass().getName()));
-			repository.delete(usuario);
-		 
+	public void eliminarUsuario(Long id) throws Exception {
+		Usuario usuario = repository.findById(id)
+				.orElseThrow(() -> new Exception("No se encontró el usuario a eliminar." + this.getClass().getName()));
+		repository.delete(usuario);
+
+	}
+
+	@Override
+	public Usuario changePassword(ChangePassword form) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.wpenarudas.dto.ChangePassword;
 import com.wpenarudas.model.Usuario;
 import com.wpenarudas.repository.RolRepo;
 import com.wpenarudas.service.UsuarioServiceInterface;
@@ -65,7 +67,9 @@ public class UsuariosController {
 		model.addAttribute("usuarios", serviceUsuario.buscarTodas());
 		model.addAttribute("roles",rolRepo.findAll());
 		model.addAttribute("userForm", usuarioEditar);		
-		model.addAttribute("editMode",true);//Mira siguiente seccion para mas informacion
+		//model.addAttribute("editMode",true);//Mira siguiente seccion para mas informacion
+		
+		model.addAttribute("passwordForm",new ChangePassword(id));
 		
 		return "usuarios/editarUsuario";
 	}
@@ -73,7 +77,8 @@ public class UsuariosController {
 	@PostMapping("/editUser")
 	public String editarUsuario(@Validated @ModelAttribute("userForm") Usuario usuario, BindingResult result, ModelMap model)  {
 		if(result.hasErrors()) {
-			model.addAttribute("userForm", usuario);				
+			model.addAttribute("userForm", usuario);		
+			model.addAttribute("passwordForm",new ChangePassword(usuario.getId()));
 		}else {
 			 try {
 				serviceUsuario.actualizarUsuario(usuario);
@@ -83,12 +88,48 @@ public class UsuariosController {
 				model.addAttribute("userForm", usuario);
 				model.addAttribute("usuarios", serviceUsuario.buscarTodas());		
 				model.addAttribute("roles", rolRepo.findAll());
+				model.addAttribute("passwordForm",new ChangePassword(usuario.getId()));
 			}
 		}
 		
 		return "redirect:/usuarios/index";
 				
 	}
+	
+	@GetMapping("/editUserPassword/{id}")
+	public String getEditUserPasswordForm(Model model, @PathVariable(name="id") Long id) throws Exception {
+		Usuario usuarioEditar = serviceUsuario.buscarPorId(id);		
+		model.addAttribute("usuarios", serviceUsuario.buscarTodas());
+		model.addAttribute("roles",rolRepo.findAll());
+		model.addAttribute("userForm", usuarioEditar);		
+		//model.addAttribute("editMode",true);//Mira siguiente seccion para mas informacion
+		
+		model.addAttribute("passwordForm",new ChangePassword(id));
+		
+		return "usuarios/changePassword";
+	}
+	
+	@PostMapping("/editUserPassword")
+	public String editarUsuarioPassword(@Validated @ModelAttribute("userForm") Usuario usuario, BindingResult result, ModelMap model)  {
+		if(result.hasErrors()) {
+			model.addAttribute("userForm", usuario);		
+			model.addAttribute("passwordForm",new ChangePassword(usuario.getId()));
+		}else {
+			 try {
+				serviceUsuario.actualizarUsuario(usuario);
+				model.addAttribute("userForm", new Usuario());
+			} catch (Exception e) {
+				model.addAttribute("formErrorMessage", e.getMessage());
+				model.addAttribute("userForm", usuario);
+				model.addAttribute("usuarios", serviceUsuario.buscarTodas());		
+				model.addAttribute("roles", rolRepo.findAll());
+				model.addAttribute("passwordForm",new ChangePassword(usuario.getId()));
+			}
+		}
+		
+		return "redirect:/usuarios/index";
+				
+	}	
 	
 	@GetMapping("/eliminarUsuario/{id}")
 	public String eliminarUsuario(Model model,  @PathVariable(name="id") Long id ) {

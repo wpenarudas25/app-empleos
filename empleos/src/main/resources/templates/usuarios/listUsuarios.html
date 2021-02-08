@@ -57,13 +57,20 @@
 									th:href="@{'/usuarios/editUser/{id}' (id=${tmpUsuario.id})}"
 									class="btn btn-success btn-sm" role="button"
 									title="Editar usuario."><i class="fas fa-edit"
-										aria-hidden="true"></i></a> 									
+										aria-hidden="true"></i></a> 	
+										<a
+									th:href="@{'/usuarios/editUserPassword/{id}' (id=${tmpUsuario.id})}"
+									class="btn btn-warning btn-sm" role="button"
+									title="Cambiar contraseña."><i class="fas fa-key"
+										aria-hidden="true"></i></a>								
 										
 										<a href="#" th:href="@{/usuarios/eliminarUsuario/}+${tmpUsuario.id}"
 										onclick="return confirm('¿Estas seguro de eliminar este usuario?')"
 									class="btn btn-danger btn-sm" role="button"
 									title="Eliminar el usuario."><i class="fas fa-trash"
-										aria-hidden="true"></i></a></td>
+										aria-hidden="true"></i></a>
+										
+										</td>
 							</tr>
 						</tbody>
 					</table>
