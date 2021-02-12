@@ -1,6 +1,7 @@
 package com.wpenarudas.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -31,6 +32,8 @@ public class UsuariosController {
 	public String inicio(Model model) {		
 		model.addAttribute("usuarios", serviceUsuario.buscarTodas());		
 		model.addAttribute("roles", rolRepo.findAll());	
+		model.addAttribute("nombre_usuario", SecurityContextHolder
+                .getContext().getAuthentication().getName());
 		return "usuarios/listUsuarios";
 	}
 	@GetMapping("/create")
@@ -38,22 +41,30 @@ public class UsuariosController {
 		model.addAttribute("userForm", new Usuario());
 		model.addAttribute("usuarios", serviceUsuario.buscarTodas());		
 		model.addAttribute("roles", rolRepo.findAll());	
+		model.addAttribute("nombre_usuario", SecurityContextHolder
+                .getContext().getAuthentication().getName());
 		return "usuarios/formUsuarios";
 	}
 	
 	@PostMapping("/create")
 	public String crearUsuario(@Validated @ModelAttribute("userForm") Usuario usuario, BindingResult result, ModelMap model)  {
 		if(result.hasErrors()) {
-			model.addAttribute("userForm", usuario);				
+			model.addAttribute("userForm", usuario);
+			model.addAttribute("nombre_usuario", SecurityContextHolder
+	                .getContext().getAuthentication().getName());
 		}else {
 			 try {
 				serviceUsuario.crearUsuario(usuario);
 				model.addAttribute("userForm", new Usuario());
+				model.addAttribute("nombre_usuario", SecurityContextHolder
+		                .getContext().getAuthentication().getName());
 			} catch (Exception e) {
 				model.addAttribute("formErrorMessage", e.getMessage());
 				model.addAttribute("userForm", usuario);
 				model.addAttribute("usuarios", serviceUsuario.buscarTodas());		
 				model.addAttribute("roles", rolRepo.findAll());
+				model.addAttribute("nombre_usuario", SecurityContextHolder
+		                .getContext().getAuthentication().getName());
 			}
 		}
 		
@@ -66,7 +77,9 @@ public class UsuariosController {
 		Usuario usuarioEditar = serviceUsuario.buscarPorId(id);		
 		model.addAttribute("usuarios", serviceUsuario.buscarTodas());
 		model.addAttribute("roles",rolRepo.findAll());
-		model.addAttribute("userForm", usuarioEditar);		
+		model.addAttribute("userForm", usuarioEditar);	
+		model.addAttribute("nombre_usuario", SecurityContextHolder
+                .getContext().getAuthentication().getName());
 		//model.addAttribute("editMode",true);//Mira siguiente seccion para mas informacion
 		
 		model.addAttribute("passwordForm",new ChangePassword(id));
@@ -78,7 +91,8 @@ public class UsuariosController {
 	public String editarUsuario(@Validated @ModelAttribute("userForm") Usuario usuario, BindingResult result, ModelMap model)  {
 		if(result.hasErrors()) {
 			model.addAttribute("userForm", usuario);		
-			model.addAttribute("passwordForm",new ChangePassword(usuario.getId()));
+			model.addAttribute("passwordForm",new ChangePassword(usuario.getId()));model.addAttribute("nombre_usuario", SecurityContextHolder
+	                .getContext().getAuthentication().getName());
 		}else {
 			 try {
 				serviceUsuario.actualizarUsuario(usuario);
@@ -88,7 +102,8 @@ public class UsuariosController {
 				model.addAttribute("userForm", usuario);
 				model.addAttribute("usuarios", serviceUsuario.buscarTodas());		
 				model.addAttribute("roles", rolRepo.findAll());
-				model.addAttribute("passwordForm",new ChangePassword(usuario.getId()));
+				model.addAttribute("passwordForm",new ChangePassword(usuario.getId()));model.addAttribute("nombre_usuario", SecurityContextHolder
+		                .getContext().getAuthentication().getName());
 			}
 		}
 		
@@ -103,6 +118,8 @@ public class UsuariosController {
 		model.addAttribute("roles",rolRepo.findAll());
 		model.addAttribute("userForm", usuarioEditar);		
 		//model.addAttribute("editMode",true);//Mira siguiente seccion para mas informacion
+		model.addAttribute("nombre_usuario", SecurityContextHolder
+                .getContext().getAuthentication().getName());
 		
 		model.addAttribute("passwordForm",new ChangePassword(id));
 		
@@ -114,16 +131,22 @@ public class UsuariosController {
 		if(result.hasErrors()) {
 			model.addAttribute("userForm", usuario);		
 			model.addAttribute("passwordForm",new ChangePassword(usuario.getId()));
+			model.addAttribute("nombre_usuario", SecurityContextHolder
+	                .getContext().getAuthentication().getName());
 		}else {
 			 try {
 				serviceUsuario.actualizarUsuario(usuario);
 				model.addAttribute("userForm", new Usuario());
+				model.addAttribute("nombre_usuario", SecurityContextHolder
+		                .getContext().getAuthentication().getName());
 			} catch (Exception e) {
 				model.addAttribute("formErrorMessage", e.getMessage());
 				model.addAttribute("userForm", usuario);
 				model.addAttribute("usuarios", serviceUsuario.buscarTodas());		
 				model.addAttribute("roles", rolRepo.findAll());
 				model.addAttribute("passwordForm",new ChangePassword(usuario.getId()));
+				model.addAttribute("nombre_usuario", SecurityContextHolder
+		                .getContext().getAuthentication().getName());
 			}
 		}
 		

@@ -10,42 +10,27 @@
 <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
 <link th:href="@{/bootstrap/css/sticky-footer-navbar.css}"
 	rel="stylesheet">
-	<link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+<link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
 	rel="stylesheet">
 
 </head>
 <body>
-	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark"
-		th:fragment="header">
-		<a href="/"> <img class="media-object" src="/images/logoH.png"
-			alt="...">
-		</a> <a class="navbar-brand" href="/">EmpleosApp</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarsExampleDefault"
-			aria-controls="navbarsExampleDefault" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+	<div th:with="disableFields= if${nombre_usuario}">
+		<nav class="navbar navbar-dark fixed-top bg-dark"
+			th:fragment="header">
+			<a href="/"> <img class="media-object" src="/images/logoH.png"
+				alt="...">
+			</a> <a style="font-size: 34px; font-family:sans-serif;" class="navbar-brand" href="/"><strong>EmpleosApp</strong> </a>		
 
-		<div class="collapse navbar-collapse" id="navbarsExampleDefault">
-			<ul class="navbar-nav mr-auto">
-
-				<li><a class="btn " th:href="@{/vacantes/index}"
-					style="color: white;" role="button">Vacantes</a></li>
-
-				<li><a class="btn " th:href="@{/categorias/index}"
-					style="color: white;" role="button">Categorías</a></li>
-
-				<li><a class="btn " th:href="@{/usuarios/index}"
-					style="color: white;" role="button">Usuarios</a></li>
-
-				<li class="nav-item"><a class="nav-link" href="#"></a></li>
-			</ul>
-
-			<a class="btn btn-primary" href="/login">Ingresar</a>&nbsp; <a
-				class="btn btn-primary" href="/registro">Registrarse</a>
-		</div>
-	</nav>
-
+			<div class="inline">
+				<ul class="navbar-nav mr-auto">
+					<li><a class="btn btn-success" href="/login"
+						th:disabled="${disableFields}">Ingresar</a>&nbsp; <a
+						class="btn btn-primary" href="/registro"
+						th:disabled="${disableFields}">Registrarse</a></li>
+				</ul>
+			</div>
+		</nav>
+	</div>
 </body>
 </html>

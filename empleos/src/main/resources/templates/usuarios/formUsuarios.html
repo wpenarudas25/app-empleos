@@ -23,7 +23,7 @@
 
 <body>
 
-	<div th:replace="~{fragments/header :: header}">Header</div>
+	<div th:replace="~{fragments/headerIn :: headerIn}">Header</div>
 
 	<main role="main">
 		<hr>
@@ -34,6 +34,7 @@
 					<strong>Crear nuevo usuario</strong>
 				</h4>
 				<div class="card-body">
+				<div th:with="disableFields=${#authorization.expression('hasRole(''ROLE_USER'')')}">
 					<form  class="form" th:action="@{/usuarios/create}" role="form"
 						autocomplete="on" th:object="${userForm}" method="post">
 						<div class="row">
@@ -138,6 +139,7 @@
 						<div class="alert alert-danger" th:if="${formErrorMessage}"
 							th:text="${formErrorMessage}">Error Message</div>
 					</form>
+				</div>
 				</div>
 			</div>
 

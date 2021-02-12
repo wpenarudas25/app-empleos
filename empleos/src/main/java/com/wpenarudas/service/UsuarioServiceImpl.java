@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.wpenarudas.dto.ChangePassword;
@@ -68,12 +69,12 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 	}
 
 	@Override
-	public Usuario actualizarUsuario(Usuario usuario) throws Exception {		
-			Usuario usuarioEncontrado = buscarPorId(usuario.getId());
-			mapUsuario(usuario, usuarioEncontrado);
-			String confirmPassword = usuarioEncontrado.getPassword();
-			usuarioEncontrado.setConfirmPassword(confirmPassword);
-			return repository.save(usuarioEncontrado);		 
+	public Usuario actualizarUsuario(Usuario usuario) throws Exception {
+		Usuario usuarioEncontrado = buscarPorId(usuario.getId());
+		mapUsuario(usuario, usuarioEncontrado);
+		String confirmPassword = usuarioEncontrado.getPassword();
+		usuarioEncontrado.setConfirmPassword(confirmPassword);
+		return repository.save(usuarioEncontrado);
 	}
 
 	protected void mapUsuario(Usuario from, Usuario to) {
@@ -99,5 +100,12 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 	public Usuario changePassword(ChangePassword form) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_EDITOR','ROLE_USER')")
+	public Usuario updateUser(Usuario usuario) throws Exception {
+
+		return usuario;
+
 	}
 }

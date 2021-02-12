@@ -20,7 +20,7 @@
 
 <body>
 
-	<div th:replace="~{fragments/header :: header}">Header</div>
+	<div th:replace="~{fragments/headerIn :: headerIn}">Header</div>
 
 	<main role="main">
 		<hr>
@@ -143,7 +143,7 @@
 							</div>
 							<div class="col-md-3">
 								<label for="imagen">Imagen/Logo</label> <img
-									class="rounded mx-auto d-block" th:src="@{/images/logo.png}"
+									class="rounded mx-auto d-block" src="/images/logo.png"
 									alt="Generic placeholder image" width="200" height="200">
 								<div class="alert-danger"
 									th:if="${#fields.hasErrors('imagen')}"

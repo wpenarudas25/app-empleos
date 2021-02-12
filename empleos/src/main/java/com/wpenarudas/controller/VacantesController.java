@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -31,29 +32,39 @@ public class VacantesController {
 	
 	@GetMapping("/index")
 	public String inicio(Model model) {				
-		model.addAttribute("vacantes", serviceVacantes.buscarTodas());	
+		model.addAttribute("vacantes", serviceVacantes.buscarTodas());
+		model.addAttribute("nombre_usuario", SecurityContextHolder
+                .getContext().getAuthentication().getName());
 		return "vacantes/listVacantes";
 	}
 
 	@GetMapping("/create")
 	public String crear(Model model) {
 		model.addAttribute("vacanteForm", new Vacante());
-		model.addAttribute("vacantes", serviceVacantes.buscarTodas());		
+		model.addAttribute("vacantes", serviceVacantes.buscarTodas());	
+		model.addAttribute("nombre_usuario", SecurityContextHolder
+                .getContext().getAuthentication().getName());
 		return "vacantes/formVacantes";
 	}
 	
 	@PostMapping("/create")
 	public String crearVacante(@Validated @ModelAttribute("vacanteForm") Vacante  vacante, BindingResult result, ModelMap model)  {
 		if(result.hasErrors()) {
-			model.addAttribute("vacanteForm", vacante);				
+			model.addAttribute("vacanteForm", vacante);		
+			model.addAttribute("nombre_usuario", SecurityContextHolder
+	                .getContext().getAuthentication().getName());
 		}else {
 			 try {
 				serviceVacantes.crearVacante(vacante);
 				model.addAttribute("vacanteForm", new Vacante());
+				model.addAttribute("nombre_usuario", SecurityContextHolder
+		                .getContext().getAuthentication().getName());
 			} catch (Exception e) {
 				model.addAttribute("formErrorMessage", e.getMessage());
 				model.addAttribute("vacanteForm", vacante);
 				model.addAttribute("vacantes", serviceVacantes.buscarTodas());	
+				model.addAttribute("nombre_usuario", SecurityContextHolder
+		                .getContext().getAuthentication().getName());
 			}
 		}
 		
@@ -62,9 +73,11 @@ public class VacantesController {
 	}
 
 	@PostMapping("/save")
-	public String guardar(Vacante vacante) {
+	public String guardar(Vacante vacante, Model model) {
 		serviceVacantes.guardar(vacante);
 		System.out.println("Vacante: " + vacante);
+		model.addAttribute("nombre_usuario", SecurityContextHolder
+                .getContext().getAuthentication().getName());
 		return "vacantes/listVacantes";
 	}
 
@@ -80,6 +93,8 @@ public class VacantesController {
 		Vacante vacante = serviceVacantes.buscarPorId(idVacante);
 		System.out.println("Vacante: " + vacante);
 		model.addAttribute("vacante", vacante);
+		model.addAttribute("nombre_usuario", SecurityContextHolder
+                .getContext().getAuthentication().getName());
 
 		// Buscar los detalles en la BD...
 
@@ -91,6 +106,8 @@ public class VacantesController {
 		Vacante vacante = serviceVacantes.buscarPorId(idVacante);
 		System.out.println("Vacante: " + vacante);
 		model.addAttribute("vacante", vacante);
+		model.addAttribute("nombre_usuario", SecurityContextHolder
+                .getContext().getAuthentication().getName());
 
 		// Buscar los detalles en la BD...
 
@@ -101,7 +118,9 @@ public class VacantesController {
 	public String getEditVacanteForm(Model model, @PathVariable(name="id") Long id) throws Exception {
 		Vacante vacanteEditar = serviceVacantes.buscarPorId(id);		
 		model.addAttribute("vacantes", serviceVacantes.buscarTodas());
-		model.addAttribute("vacanteForm", vacanteEditar);		
+		model.addAttribute("vacanteForm", vacanteEditar);	
+		model.addAttribute("nombre_usuario", SecurityContextHolder
+                .getContext().getAuthentication().getName());
 		
 		return "vacantes/editVacante";
 	}
@@ -110,15 +129,21 @@ public class VacantesController {
 	@PostMapping("/editVacante")
 	public String editarVacante(@Validated @ModelAttribute("vacanteForm") Vacante vacante, BindingResult result, ModelMap model)  {
 		if(result.hasErrors()) {
-			model.addAttribute("vacanteForm", vacante);				
+			model.addAttribute("vacanteForm", vacante);		
+			model.addAttribute("nombre_usuario", SecurityContextHolder
+	                .getContext().getAuthentication().getName());
 		}else {
 			 try {
 				serviceVacantes.actualizarVacante(vacante);
 				model.addAttribute("vacanteForm", new Vacante());
+				model.addAttribute("nombre_usuario", SecurityContextHolder
+		                .getContext().getAuthentication().getName());
 			} catch (Exception e) {
 				model.addAttribute("formErrorMessage", e.getMessage());
 				model.addAttribute("vacanteForm", vacante);
 				model.addAttribute("vacantes", serviceVacantes.buscarTodas());	
+				model.addAttribute("nombre_usuario", SecurityContextHolder
+		                .getContext().getAuthentication().getName());
 			}
 		}		
 		return "redirect:/vacantes/index";

@@ -2,6 +2,7 @@ package com.wpenarudas.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -26,6 +27,8 @@ public class CategoriasController {
 	@GetMapping("/index")
 	public String inicio(Model model) {
 		model.addAttribute("categorias", serviceCategoria.buscarTodas());
+		model.addAttribute("nombre_usuario", SecurityContextHolder
+                .getContext().getAuthentication().getName());
 		return "categorias/listCategorias";
 	}
 
@@ -33,6 +36,8 @@ public class CategoriasController {
 	public String crear(Model model) {
 		model.addAttribute("categoriaForm", new Categoria());
 		model.addAttribute("categorias", serviceCategoria.buscarTodas());
+		model.addAttribute("nombre_usuario", SecurityContextHolder
+                .getContext().getAuthentication().getName());
 		return "categorias/formCategorias";
 	}
 
@@ -41,14 +46,20 @@ public class CategoriasController {
 			ModelMap model) {
 		if (result.hasErrors()) {
 			model.addAttribute("categoriaForm", categoria);
+			model.addAttribute("nombre_usuario", SecurityContextHolder
+	                .getContext().getAuthentication().getName());
 		} else {
 			try {
 				serviceCategoria.crearCategoria(categoria);
 				model.addAttribute("categoriaForm", new Categoria());
+				model.addAttribute("nombre_usuario", SecurityContextHolder
+		                .getContext().getAuthentication().getName());
 			} catch (Exception e) {
 				model.addAttribute("formErrorMessage", e.getMessage());
 				model.addAttribute("categoriaForm", categoria);
 				model.addAttribute("categorias", serviceCategoria.buscarTodas());
+				model.addAttribute("nombre_usuario", SecurityContextHolder
+		                .getContext().getAuthentication().getName());
 			}
 		}
 
@@ -61,6 +72,8 @@ public class CategoriasController {
 		Categoria categoriaEditar = serviceCategoria.buscarPorId(id);
 		model.addAttribute("categorias", serviceCategoria.buscarTodas());
 		model.addAttribute("categoriaForm", categoriaEditar);
+		model.addAttribute("nombre_usuario", SecurityContextHolder
+                .getContext().getAuthentication().getName());
 
 		// model.addAttribute("editMode",true);//Mira siguiente seccion para mas
 		// informacion
@@ -73,14 +86,20 @@ public class CategoriasController {
 			ModelMap model) {
 		if (result.hasErrors()) {
 			model.addAttribute("categoriaForm", categoria);
+			model.addAttribute("nombre_usuario", SecurityContextHolder
+	                .getContext().getAuthentication().getName());
 		} else {
 			try {
 				serviceCategoria.actualizarCategoria(categoria);
 				model.addAttribute("categoriaForm", new Categoria());
+				model.addAttribute("nombre_usuario", SecurityContextHolder
+		                .getContext().getAuthentication().getName());
 			} catch (Exception e) {
 				model.addAttribute("formErrorMessage", e.getMessage());
 				model.addAttribute("categoriaForm", categoria);
 				model.addAttribute("categorias", serviceCategoria.buscarTodas());
+				model.addAttribute("nombre_usuario", SecurityContextHolder
+		                .getContext().getAuthentication().getName());
 			}
 		}
 
