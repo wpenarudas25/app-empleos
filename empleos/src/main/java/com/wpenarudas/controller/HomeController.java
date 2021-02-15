@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.wpenarudas.model.Vacante;
 import com.wpenarudas.service.VacanteServiceInterface;
 
+
 @Controller
 public class HomeController {
 
@@ -34,16 +35,14 @@ public class HomeController {
 
 	@GetMapping("/login")
 	public String login(Model model) {
-		List<Vacante> lista = serviceVacantes.buscarTodas();
-		model.addAttribute("vacantes", lista);
 		return "login";
 	}
 
 	@GetMapping("/registro")
 	public String registro(Model model) {
-		List<Vacante> lista = serviceVacantes.buscarTodas();
-		model.addAttribute("vacantes", lista);
 		return "registro";
 	}
+	
+	
 
 }

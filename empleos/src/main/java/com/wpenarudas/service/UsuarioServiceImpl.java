@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.wpenarudas.dto.ChangePassword;
@@ -16,6 +17,9 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 
 	@Autowired
 	UsuarioRepo repository;
+
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	List<Usuario> lista = null;
 
@@ -61,17 +65,22 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 	@Override
 	public Usuario crearUsuario(Usuario usuario) throws Exception {
 		if (checkUsernameAvailable(usuario) && checkPasswordValid(usuario) && checkEmailAvailable(usuario)) {
-			usuario.setPassword(usuario.getPassword());
+			String encodedPassword = bCryptPasswordEncoder.encode(usuario.getPassword());
+			usuario.setPassword(encodedPassword);
 			usuario = repository.save(usuario);
 		}
 		return usuario;
 
 	}
+	
+	
 
 	@Override
 	public Usuario actualizarUsuario(Usuario usuario) throws Exception {
 		Usuario usuarioEncontrado = buscarPorId(usuario.getId());
 		mapUsuario(usuario, usuarioEncontrado);
+		String encodedPassword = bCryptPasswordEncoder.encode(usuarioEncontrado.getPassword());
+		usuarioEncontrado.setPassword(encodedPassword);
 		String confirmPassword = usuarioEncontrado.getPassword();
 		usuarioEncontrado.setConfirmPassword(confirmPassword);
 		return repository.save(usuarioEncontrado);
@@ -108,4 +117,6 @@ public class UsuarioServiceImpl implements UsuarioServiceInterface {
 		return usuario;
 
 	}
+
+	
 }

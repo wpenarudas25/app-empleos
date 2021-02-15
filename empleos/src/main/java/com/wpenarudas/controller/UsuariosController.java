@@ -1,7 +1,10 @@
 package com.wpenarudas.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -71,6 +74,36 @@ public class UsuariosController {
 		return "usuarios/formUsuarios";
 		
 	}
+	
+	
+	@GetMapping("/registro")
+	public String registarUsuario(Model model) {
+		model.addAttribute("userForm", new Usuario());
+		model.addAttribute("usuarios", serviceUsuario.buscarTodas());		
+		model.addAttribute("roles", rolRepo.findAll());	
+		model.addAttribute("nombre_usuario", SecurityContextHolder
+                .getContext().getAuthentication().getName());
+		return "usuarios/registro";
+	}
+	@PostMapping("/registro")
+	public String registarUsuario(@Validated @ModelAttribute("userForm") Usuario usuario, BindingResult result, ModelMap model)  {
+		model.addAttribute("userForm", usuario);
+		model.addAttribute("usuarios", serviceUsuario.buscarTodas());		
+		model.addAttribute("roles", rolRepo.findAll());	
+		if(result.hasErrors()) {
+			return "usuarios/registro";
+		}else {
+			 try {
+				 usuario.setTipo("USER");
+				serviceUsuario.crearUsuario(usuario);
+			} catch (Exception e) {
+				model.addAttribute("formErrorMessage", e.getMessage());
+				}
+		}
+		return "redirect:/login";
+	}
+	
+	
 	
 	@GetMapping("/editUser/{id}")
 	public String getEditUserForm(Model model, @PathVariable(name="id") Long id) throws Exception {
@@ -164,4 +197,23 @@ public class UsuariosController {
 		return "redirect:/usuarios/index";
 	}
 	
+	
+	@SuppressWarnings("unused")
+	private boolean isLoggedUserADMIN() {
+		//Obtener el usuario logeado
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		UserDetails loggedUser = null;
+		Object roles = null;
+
+		//Verificar que ese objeto traido de sesion es el usuario
+		if (principal instanceof UserDetails) {
+			loggedUser = (UserDetails) principal;
+
+			roles = loggedUser.getAuthorities().stream()
+					.filter(x -> "ROLE_ADMIN".equals(x.getAuthority())).findFirst()
+					.orElse(null); 
+		}
+		return roles != null ? true : false;
+	}
 }

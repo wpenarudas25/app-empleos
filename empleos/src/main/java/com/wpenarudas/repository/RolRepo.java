@@ -6,5 +6,7 @@ import com.wpenarudas.model.Role;
 
 @Repository
 public interface RolRepo extends CrudRepository<Role, Long> {
+	
+	public Role findByName(String name);
 
 }

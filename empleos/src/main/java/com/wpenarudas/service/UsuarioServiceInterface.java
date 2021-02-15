@@ -10,5 +10,6 @@ public interface UsuarioServiceInterface {
 	public Usuario crearUsuario(Usuario usuario) throws Exception;
 	public Usuario actualizarUsuario(Usuario usuario) throws Exception;
 	public void eliminarUsuario(Long id) throws Exception;
-	public Usuario changePassword(ChangePassword form) throws Exception;	
+	public Usuario changePassword(ChangePassword form) throws Exception;
+	
 }
