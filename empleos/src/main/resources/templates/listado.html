@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Listado de Vacantes</title>
+ <link rel="shortcut icon" href="/images/logo.png">
+<!-- Bootstrap core CSS -->
+<link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
+<link th:href="@{/bootstrap/css/sticky-footer-navbar.css}"
+	rel="stylesheet">
+</head>
+<body>
+	<div th:replace="~{fragments/header :: header}">Header</div>
+
+	<h1>Vacantes disponibles</h1>
+
+	<ol>
+		<li th:each="tmpEmpleados:${empleos}" th:text="${tmpEmpleados}"></li>
+	</ol>
+	<div th:insert="~{fragments/footer :: footer}">&copy;</div>
+</body>
+</html>
